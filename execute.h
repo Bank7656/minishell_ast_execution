@@ -6,7 +6,7 @@
 /*   By: thacharo <thacharo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 17:35:01 by thacharo          #+#    #+#             */
-/*   Updated: 2025/08/22 16:33:39 by thacharo         ###   ########.fr       */
+/*   Updated: 2025/08/24 15:58:36 by thacharo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <sys/wait.h>
 # include <unistd.h>
 
+
 typedef enum e_node_type
 {
 	NODE_COMMAND,
@@ -30,17 +31,26 @@ typedef enum e_node_type
 	NODE_REDIRECT_OUT,
 }	t_node_type;
 
+typedef enum e_node_side
+{
+	NONE,
+	NODE_LEFT,
+	NODE_RIGHT
+} t_node_side;
+
 typedef struct s_ast_node
 {
 	t_node_type	type;
-	int			*root_pipe;
+	int			*current_pipe;
+	int			*previous_pipe;
 	union u_node_data
 	{
 		struct s_command
 		{
-			char	*commands;
-			char	**arguments;
-			char	**envp;
+			char		*commands;
+			char		**arguments;
+			char		**envp;
+			t_node_side side;
 		} exec;
 		struct s_operator
 		{

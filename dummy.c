@@ -6,7 +6,7 @@
 /*   By: thacharo <thacharo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 22:50:19 by thacharo          #+#    #+#             */
-/*   Updated: 2025/08/22 16:48:21 by thacharo         ###   ########.fr       */
+/*   Updated: 2025/08/24 18:06:42 by thacharo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,11 @@ t_ast_node *create_dummy_ast(char **envp)
 {
 	t_ast_node *node_1 = create_ast_node("/bin/cat", (char *[]){"cat", "-e", "dockerfile", NULL}, envp);
 	t_ast_node *node_2 = create_ast_node("/bin/cat", (char *[]){"cat", "-e", NULL}, envp);
-	t_ast_node *pipe_node = create_pipeline_node(node_1, node_2);
+	t_ast_node *node_3 = create_ast_node("/bin/cat", (char *[]){"cat", "-e", NULL}, envp);
+	t_ast_node *pipe_node1 = create_pipeline_node(node_1, node_2);
+	t_ast_node *pipe_node2 = create_pipeline_node(pipe_node1, node_3);
 
-	return (pipe_node);
+	return (pipe_node2);
 }
 
 static t_ast_node	*create_ast_node(char *cmd, char **args, char **envp)
@@ -35,10 +37,12 @@ static t_ast_node	*create_ast_node(char *cmd, char **args, char **envp)
 	if (!node)
 		return (NULL);
 	node -> type = NODE_COMMAND;
-	node -> root_pipe = NULL;
+	node -> previous_pipe = NULL;
+	node -> current_pipe = NULL;
 	// node -> data.exec.commands = (char *)malloc(sizeof(char) * strlen(cmd));
 	// if (!node -> data.exec.commands)
 	// 	return (clear_ast(node));
+	node -> data.exec.side = NONE;
 	node -> data.exec.commands = strdup(cmd);
 	node -> data.exec.arguments = get_dummy_args(args);
 	node -> data.exec.envp = envp;
@@ -76,7 +80,8 @@ static t_ast_node	*create_pipeline_node(t_ast_node *left, t_ast_node *right)
 	if (!node)
 		return (NULL);
 	node -> type = NODE_PIPELINE;
-	node -> root_pipe = NULL;
+	node -> previous_pipe = NULL;
+	node -> current_pipe = NULL;
 	node -> data.tree.left = left;
 	node -> data.tree.right = right;
 	return (node);

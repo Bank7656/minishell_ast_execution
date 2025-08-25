@@ -6,7 +6,7 @@
 /*   By: thacharo <thacharo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 07:11:23 by thacharo          #+#    #+#             */
-/*   Updated: 2025/08/21 00:02:40 by thacharo         ###   ########.fr       */
+/*   Updated: 2025/08/22 21:01:41 by thacharo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ static void	free_command_node(t_ast_node *node)
 		}
 		free(node -> data.exec.arguments);	
 	}
-
 
 	free(node);
 	return ;
