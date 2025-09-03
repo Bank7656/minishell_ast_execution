@@ -1,25 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thacharo <thacharo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/22 00:39:17 by thacharo          #+#    #+#             */
-/*   Updated: 2025/08/22 17:21:13 by thacharo         ###   ########.fr       */
+/*   Created: 2024/08/29 14:09:53 by thacharo          #+#    #+#             */
+/*   Updated: 2024/09/05 23:48:30 by thacharo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "execute.h"
+#include "libft.h"
 
-int	main(int argc, char **argv, char **envp)
+void	*ft_calloc(size_t nmemb, size_t size)
 {
+	void	*ptr;
 
-	t_ast_node *root_node = create_dummy_ast(envp);
-
-	execution(root_node);
-
-  clear_and_exit(root_node, "NONE");
-
-	return (0);
+	if (nmemb == 0 || size == 0)
+		return ((void *)malloc(0));
+	if (nmemb > INT_MAX / size)
+		return (NULL);
+	ptr = (void *)malloc(nmemb * size);
+	if (ptr == NULL)
+		return (NULL);
+	ft_bzero(ptr, nmemb * size);
+	return (ptr);
 }

@@ -1,25 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_lstdelone_bonus.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thacharo <thacharo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/22 00:39:17 by thacharo          #+#    #+#             */
-/*   Updated: 2025/08/22 17:21:13 by thacharo         ###   ########.fr       */
+/*   Created: 2024/09/04 12:31:38 by thacharo          #+#    #+#             */
+/*   Updated: 2024/09/04 19:25:55 by thacharo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "execute.h"
+#include "libft.h"
 
-int	main(int argc, char **argv, char **envp)
+void	ft_lstdelone(t_list *lst, void (*del)(void *))
 {
-
-	t_ast_node *root_node = create_dummy_ast(envp);
-
-	execution(root_node);
-
-  clear_and_exit(root_node, "NONE");
-
-	return (0);
+	if (lst == NULL || del == NULL)
+		return ;
+	del(lst -> content);
+	free(lst);
 }

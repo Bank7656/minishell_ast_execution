@@ -1,6 +1,7 @@
 docker-compose.yml
 dockerfile
 
+*.o
 .DS_Store
 
 objects/

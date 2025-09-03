@@ -1,25 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strlcpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thacharo <thacharo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/22 00:39:17 by thacharo          #+#    #+#             */
-/*   Updated: 2025/08/22 17:21:13 by thacharo         ###   ########.fr       */
+/*   Created: 2024/08/25 01:53:52 by thacharo          #+#    #+#             */
+/*   Updated: 2024/09/04 21:03:15 by thacharo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "execute.h"
+#include "libft.h"
 
-int	main(int argc, char **argv, char **envp)
+size_t	ft_strlcpy(char *dst, const char *src, size_t size)
 {
+	size_t	i;
 
-	t_ast_node *root_node = create_dummy_ast(envp);
-
-	execution(root_node);
-
-  clear_and_exit(root_node, "NONE");
-
-	return (0);
+	i = 0;
+	if (size == 0)
+		return (ft_strlen(src));
+	while (src[i] && i < size - 1)
+	{
+		dst[i] = src[i];
+		i++;
+	}
+	dst[i] = '\0';
+	return (ft_strlen(src));
 }

@@ -1,25 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_memcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thacharo <thacharo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/22 00:39:17 by thacharo          #+#    #+#             */
-/*   Updated: 2025/08/22 17:21:13 by thacharo         ###   ########.fr       */
+/*   Created: 2024/08/29 10:46:10 by thacharo          #+#    #+#             */
+/*   Updated: 2024/09/04 19:30:38 by thacharo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "execute.h"
+#include "libft.h"
 
-int	main(int argc, char **argv, char **envp)
+int	ft_memcmp(const void *s1, const void *s2, size_t n)
 {
+	size_t			i;
+	unsigned char	*mem_s1;
+	unsigned char	*mem_s2;
 
-	t_ast_node *root_node = create_dummy_ast(envp);
-
-	execution(root_node);
-
-  clear_and_exit(root_node, "NONE");
-
+	i = 0;
+	mem_s1 = (unsigned char *)s1;
+	mem_s2 = (unsigned char *)s2;
+	while (i < n)
+	{
+		if (mem_s1[i] != mem_s2[i])
+			return (mem_s1[i] - mem_s2[i]);
+		i++;
+	}
 	return (0);
 }

@@ -1,25 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_lstadd_back_bonus.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thacharo <thacharo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/22 00:39:17 by thacharo          #+#    #+#             */
-/*   Updated: 2025/08/22 17:21:13 by thacharo         ###   ########.fr       */
+/*   Created: 2024/09/04 10:38:57 by thacharo          #+#    #+#             */
+/*   Updated: 2024/09/04 19:23:43 by thacharo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "execute.h"
+#include "libft.h"
 
-int	main(int argc, char **argv, char **envp)
+void	ft_lstadd_back(t_list **lst, t_list *new)
 {
+	t_list	*ptr;
 
-	t_ast_node *root_node = create_dummy_ast(envp);
-
-	execution(root_node);
-
-  clear_and_exit(root_node, "NONE");
-
-	return (0);
+	if (new == NULL)
+		return ;
+	if (*lst == NULL)
+	{
+		*lst = new;
+		return ;
+	}
+	ptr = ft_lstlast(*lst);
+	ptr -> next = new;
+	return ;
 }

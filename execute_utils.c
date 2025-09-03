@@ -14,6 +14,21 @@
 
 static void	free_command_node(t_ast_node *node);
 
+void  clear_and_exit(t_ast_node *node, char *cmd)
+{
+  clear_ast(node);
+  if (errno == ENOENT)
+    perror(cmd);
+  else if (errno == ECHILD)
+    perror(cmd);
+  else if (errno == EINVAL)
+    perror(cmd);
+  else if (errno == EAGAIN)
+    perror(cmd);
+  printf("[Exit %i]\n", errno);
+  exit(errno); 
+}
+
 void	*clear_ast(t_ast_node *node)
 {
 	if (node -> type == NODE_COMMAND)

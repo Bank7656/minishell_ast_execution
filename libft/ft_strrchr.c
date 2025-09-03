@@ -1,25 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thacharo <thacharo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/22 00:39:17 by thacharo          #+#    #+#             */
-/*   Updated: 2025/08/22 17:21:13 by thacharo         ###   ########.fr       */
+/*   Created: 2024/08/28 15:51:38 by thacharo          #+#    #+#             */
+/*   Updated: 2024/10/13 16:06:31 by thacharo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "execute.h"
+#include "libft.h"
 
-int	main(int argc, char **argv, char **envp)
+char	*ft_strrchr(const char *s, int c)
 {
+	size_t	i;
+	char	*word;
+	char	*ptr;
 
-	t_ast_node *root_node = create_dummy_ast(envp);
-
-	execution(root_node);
-
-  clear_and_exit(root_node, "NONE");
-
-	return (0);
+	i = 0;
+	ptr = NULL;
+	word = (char *)s;
+	if (s == NULL)
+		return (NULL);
+	while (i < ft_strlen(s) + 1)
+	{
+		if (word[i] == (char)c)
+			ptr = &word[i];
+		i++;
+	}
+	return (ptr);
 }

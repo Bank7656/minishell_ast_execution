@@ -1,25 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_get_char.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thacharo <thacharo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/22 00:39:17 by thacharo          #+#    #+#             */
-/*   Updated: 2025/08/22 17:21:13 by thacharo         ###   ########.fr       */
+/*   Created: 2024/09/26 01:07:10 by thacharo          #+#    #+#             */
+/*   Updated: 2024/11/26 12:22:09 by thacharo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "execute.h"
+#include "libft.h"
 
-int	main(int argc, char **argv, char **envp)
+int	ft_get_char(t_arg *arg, va_list *ptr)
 {
+	int	c;
 
-	t_ast_node *root_node = create_dummy_ast(envp);
-
-	execution(root_node);
-
-  clear_and_exit(root_node, "NONE");
-
-	return (0);
+	c = va_arg(*ptr, int);
+	arg -> len = 1;
+	arg -> word = (char *)ft_calloc(arg -> len, sizeof(char) + 1);
+	if (arg -> word == NULL)
+		return (EXIT_FAILURE);
+	arg -> word[0] = c;
+	arg -> word[1] = '\0';
+	return (EXIT_SUCCESS);
 }

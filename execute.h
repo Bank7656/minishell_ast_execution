@@ -6,7 +6,7 @@
 /*   By: thacharo <thacharo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 17:35:01 by thacharo          #+#    #+#             */
-/*   Updated: 2025/08/24 15:58:36 by thacharo         ###   ########.fr       */
+/*   Updated: 2025/08/25 10:31:41 by thacharo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,13 @@
 # define STDIN_FILENO 0
 # define STDOUT_FILENO 1
 # define STDERR_FILENO 2
+# define MAX_PROCESSES 256
 
 # include <stdio.h>
 # include <stdlib.h>
 # include <sys/wait.h>
 # include <unistd.h>
-
+# include <errno.h>
 
 typedef enum e_node_type
 {
@@ -30,13 +31,6 @@ typedef enum e_node_type
 	NODE_REDIRECT_IN,
 	NODE_REDIRECT_OUT,
 }	t_node_type;
-
-typedef enum e_node_side
-{
-	NONE,
-	NODE_LEFT,
-	NODE_RIGHT
-} t_node_side;
 
 typedef struct s_ast_node
 {
@@ -50,7 +44,6 @@ typedef struct s_ast_node
 			char		*commands;
 			char		**arguments;
 			char		**envp;
-			t_node_side side;
 		} exec;
 		struct s_operator
 		{
@@ -64,10 +57,17 @@ typedef struct s_ast_node
 t_ast_node	*create_dummy_ast(char **envp);
 // Delete After finishing prototype
 
-// execute.c
+//eexecute.c
 void		execution(t_ast_node *node);
+int    execute_ast(t_ast_node *node);
+
+//execute_pipeline.c
+int  execute_pipeline(t_ast_node *node);
 
 // execute_utils.c
 void		*clear_ast(t_ast_node *node);
 
+// commands_utils.c
+pid_t    ft_fork(t_ast_node *node);
+void     clear_and_exit(t_ast_node *node, char *cmd);
 #endif
