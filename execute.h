@@ -18,6 +18,7 @@
 # define STDERR_FILENO 2
 # define MAX_PROCESSES 256
 
+# include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <sys/wait.h>
@@ -62,7 +63,7 @@ void		execution(t_ast_node *node);
 int    execute_ast(t_ast_node *node);
 
 //execute_pipeline.c
-int  execute_pipeline(t_ast_node *node);
+void  execute_pipeline(t_ast_node *node);
 
 // execute_utils.c
 void		*clear_ast(t_ast_node *node);

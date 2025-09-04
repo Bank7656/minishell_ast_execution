@@ -13,8 +13,8 @@
 #include "execute.h"
 
 int  execute_ast(t_ast_node *node);
-int execute_command(t_ast_node *node);
-int  execute_pipeline(t_ast_node *node);
+void execute_command(t_ast_node *node);
+void  execute_pipeline(t_ast_node *node);
 
 void	execution(t_ast_node *node)
 {
@@ -36,15 +36,17 @@ void	execution(t_ast_node *node)
 int	execute_ast(t_ast_node *node)
 {
   int exit_code;
+  int is_right_most_child;
 
+  exit_code = -1;
 	if (node -> type == NODE_COMMAND)
-		exit_code = execute_command(node);
+		execute_command(node);
 	else if (node -> type == NODE_PIPELINE)
-		exit_code = execute_pipeline(node);
+		execute_pipeline(node);
   return (exit_code);
 }
 
-int	execute_command(t_ast_node *node)
+void  execute_command(t_ast_node *node)
 {
   pid_t pid;
   char  *path;
@@ -56,6 +58,5 @@ int	execute_command(t_ast_node *node)
   envp = node -> data.exec.envp;
   execve(path, argv, envp);
   clear_and_exit(node, "execve");
-  return;	
 }
 

@@ -23,10 +23,10 @@ t_ast_node *create_dummy_ast(char **envp)
 	t_ast_node *node_1 = create_ast_node("/bin/cat", (char *[]){"cat", "-e", "dockerfile", NULL}, envp);
 	t_ast_node *node_2 = create_ast_node("/bin/cat", (char *[]){"cat", "-e", NULL}, envp);
 	t_ast_node *node_3 = create_ast_node("/bin/cat", (char *[]){"cat", "-e", NULL}, envp);
-	t_ast_node *pipe_node1 = create_pipeline_node(node_1, node_2);
-	t_ast_node *pipe_node2 = create_pipeline_node(pipe_node1, node_3);
+	t_ast_node *pipe_node1 = create_pipeline_node(node_2, node_3);
+	t_ast_node *pipe_node2 = create_pipeline_node(node_1, pipe_node1);
 
-	return (pipe_node1);
+	return (pipe_node2);
 }
 
 static t_ast_node	*create_ast_node(char *cmd, char **args, char **envp)
