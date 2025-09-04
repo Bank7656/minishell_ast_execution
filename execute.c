@@ -14,7 +14,7 @@
 
 int  execute_ast(t_ast_node *node);
 void execute_command(t_ast_node *node);
-void  execute_pipeline(t_ast_node *node);
+int  execute_pipeline(t_ast_node *node);
 
 void	execution(t_ast_node *node)
 {
@@ -42,7 +42,7 @@ int	execute_ast(t_ast_node *node)
 	if (node -> type == NODE_COMMAND)
 		execute_command(node);
 	else if (node -> type == NODE_PIPELINE)
-		execute_pipeline(node);
+		exit_code = execute_pipeline(node);
   return (exit_code);
 }
 

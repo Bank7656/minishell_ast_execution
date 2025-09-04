@@ -4,8 +4,9 @@
 static void  close_pipe(int pipe_fd[2]);
 static pid_t execute_left_child(t_ast_node *node, int pipe_fd[2], int prev_fd);
 static pid_t execute_right_child(t_ast_node *node, int pipe_fd[2]);
+static int wait_all_child(pid_t last_pid);
 
-void  execute_pipeline(t_ast_node *node)
+int execute_pipeline(t_ast_node *node)
 {
   int        prev_fd;
   int        pipe_fd[2];
@@ -39,7 +40,26 @@ void  execute_pipeline(t_ast_node *node)
   }
   last_pid = execute_right_child(right_node, pipe_fd);  
   close(pipe_fd[0]);
-  wait(NULL);
+  return (wait_all_child(last_pid));
+}
+
+static int wait_all_child(pid_t last_pid)
+{
+  int status;
+  int last_status;  
+  pid_t pid;
+
+  while (true)
+  {
+    pid = wait(&status);
+    if (pid == last_pid)
+    {
+      if (WIFEXITED(status))
+        last_status = WEXITSTATUS(status);
+      break;
+    }
+  }
+  return (last_status);
 }
 
 static pid_t execute_right_child(t_ast_node *node, int pipe_fd[2])

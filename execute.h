@@ -63,7 +63,7 @@ void		execution(t_ast_node *node);
 int    execute_ast(t_ast_node *node);
 
 //execute_pipeline.c
-void  execute_pipeline(t_ast_node *node);
+int  execute_pipeline(t_ast_node *node);
 
 // execute_utils.c
 void		*clear_ast(t_ast_node *node);
