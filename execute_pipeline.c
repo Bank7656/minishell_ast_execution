@@ -35,11 +35,10 @@ void  execute_pipeline(t_ast_node *node)
         break;
     prev_fd = pipe_fd[0];
 
-    //right_pid = execute_right_child()
     node = node -> data.tree.right;
   }
-  // Execute right most child
   last_pid = execute_right_child(right_node, pipe_fd);  
+  close(pipe_fd[0]);
   wait(NULL);
 }
 
