@@ -71,7 +71,7 @@ static pid_t execute_right_child(t_ast_node *node, int pipe_fd[2])
   {
     close(STDIN_FILENO);
     dup(pipe_fd[0]);
-    execute_ast(node);
+    execute_ast(node, true);
   }
   return (right_pid);
 }
@@ -91,7 +91,7 @@ static pid_t execute_left_child(t_ast_node *node, int pipe_fd[2], int prev_fd)
     close(STDOUT_FILENO);
     dup(pipe_fd[1]);
     close_pipe(pipe_fd);
-    execute_ast(node);
+    execute_ast(node, true);
   }
   return (left_pid); 
 }

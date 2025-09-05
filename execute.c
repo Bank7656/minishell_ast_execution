@@ -12,42 +12,34 @@
 
 #include "execute.h"
 
-int  execute_ast(t_ast_node *node);
-void execute_command(t_ast_node *node);
-int  execute_pipeline(t_ast_node *node);
+int	execute_ast(t_ast_node *node, bool is_pipeline);
+int  execute_command(t_ast_node *node, bool is_pipeline);
 
 void	execution(t_ast_node *node)
 {
   int   exit_code;
-  pid_t pid;
 
-  pid = ft_fork(node);
-  if (pid == 0)
-  {
-    exit_code = execute_ast(node);
-    printf("[Final Exit code %i]\n", exit_code);
-    clear_and_exit(node, "NONE");
-  }
-  wait(NULL);
+  exit_code = execute_ast(node, false);
+  printf("[Final Exit code %i]\n", exit_code);
 
   return ;
 }
 
-int	execute_ast(t_ast_node *node)
+int	execute_ast(t_ast_node *node, bool is_pipeline)
 {
   int exit_code;
-  int is_right_most_child;
 
   exit_code = -1;
 	if (node -> type == NODE_COMMAND)
-		execute_command(node);
+		exit_code = execute_command(node, is_pipeline);
 	else if (node -> type == NODE_PIPELINE)
 		exit_code = execute_pipeline(node);
   return (exit_code);
 }
 
-void  execute_command(t_ast_node *node)
+int  execute_command(t_ast_node *node, bool is_pipeline)
 {
+  int   status;
   pid_t pid;
   char  *path;
   char  **argv;
@@ -56,6 +48,16 @@ void  execute_command(t_ast_node *node)
   path = node -> data.exec.commands;
   argv = node -> data.exec.arguments;
   envp = node -> data.exec.envp;
+  if (!is_pipeline)
+  {
+    pid = ft_fork(node);
+    if (pid == 0)
+    {
+      execve(path, argv, envp);
+    }
+    waitpid(pid, &status, 0);
+    return (WEXITSTATUS(status));
+  }
   execve(path, argv, envp);
   clear_and_exit(node, "execve");
 }

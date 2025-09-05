@@ -60,7 +60,7 @@ t_ast_node	*create_dummy_ast(char **envp);
 
 //eexecute.c
 void		execution(t_ast_node *node);
-int    execute_ast(t_ast_node *node);
+int    execute_ast(t_ast_node *node, bool is_pipeline);
 
 //execute_pipeline.c
 int  execute_pipeline(t_ast_node *node);

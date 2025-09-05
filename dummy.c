@@ -26,7 +26,7 @@ t_ast_node *create_dummy_ast(char **envp)
 	t_ast_node *pipe_node1 = create_pipeline_node(node_2, node_3);
 	t_ast_node *pipe_node2 = create_pipeline_node(node_1, pipe_node1);
 
-	return (pipe_node2);
+	return (node_1);
 }
 
 static t_ast_node	*create_ast_node(char *cmd, char **args, char **envp)
