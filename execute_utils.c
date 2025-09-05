@@ -14,9 +14,10 @@
 
 static void	free_command_node(t_ast_node *node);
 
-void  clear_and_exit(t_ast_node *node, char *cmd)
+void  clear_and_exit(t_group *group, char *cmd)
 {
-  clear_ast(node);
+  clear_ast(group -> ast_root);
+  free(group);
   if (errno == ENOENT)
     perror(cmd);
   else if (errno == ECHILD)

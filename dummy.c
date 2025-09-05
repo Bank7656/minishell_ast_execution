@@ -26,7 +26,17 @@ t_ast_node *create_dummy_ast(char **envp)
 	t_ast_node *pipe_node1 = create_pipeline_node(node_2, node_3);
 	t_ast_node *pipe_node2 = create_pipeline_node(node_1, pipe_node1);
 
-	return (node_1);
+	return (pipe_node2);
+}
+
+t_group *create_group(t_ast_node *node)
+{
+  t_group *group;
+
+  group = (t_group *)malloc(sizeof(t_group));
+  group -> ast_root = node;
+
+  return (group);
 }
 
 static t_ast_node	*create_ast_node(char *cmd, char **args, char **envp)
@@ -37,11 +47,6 @@ static t_ast_node	*create_ast_node(char *cmd, char **args, char **envp)
 	if (!node)
 		return (NULL);
 	node -> type = NODE_COMMAND;
-	node -> previous_pipe = NULL;
-	node -> current_pipe = NULL;
-	// node -> data.exec.commands = (char *)malloc(sizeof(char) * strlen(cmd));
-	// if (!node -> data.exec.commands)
-	// 	return (clear_ast(node));
 	node -> data.exec.commands = strdup(cmd);
 	node -> data.exec.arguments = get_dummy_args(args);
 	node -> data.exec.envp = envp;
@@ -79,8 +84,6 @@ static t_ast_node	*create_pipeline_node(t_ast_node *left, t_ast_node *right)
 	if (!node)
 		return (NULL);
 	node -> type = NODE_PIPELINE;
-	node -> previous_pipe = NULL;
-	node -> current_pipe = NULL;
 	node -> data.tree.left = left;
 	node -> data.tree.right = right;
 	return (node);

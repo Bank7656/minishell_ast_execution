@@ -17,9 +17,10 @@ int	main(int argc, char **argv, char **envp)
 
 	t_ast_node *root_node = create_dummy_ast(envp);
 
-	execution(root_node);
+  t_group *group = create_group(root_node);
+	execution(group, root_node);
 
-  clear_and_exit(root_node, "NONE");
+  clear_and_exit(group, "NONE");
 
 	return (0);
 }

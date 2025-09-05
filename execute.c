@@ -12,32 +12,32 @@
 
 #include "execute.h"
 
-int	execute_ast(t_ast_node *node, bool is_pipeline);
-int  execute_command(t_ast_node *node, bool is_pipeline);
+int	execute_ast(t_group *group, t_ast_node *node, bool is_pipeline);
+int  execute_command(t_group *group, t_ast_node *node, bool is_pipeline);
 
-void	execution(t_ast_node *node)
+void		execution(t_group *group, t_ast_node *node)
 {
   int   exit_code;
 
-  exit_code = execute_ast(node, false);
+  exit_code = execute_ast(group, node, false);
   printf("[Final Exit code %i]\n", exit_code);
 
   return ;
 }
 
-int	execute_ast(t_ast_node *node, bool is_pipeline)
+int	execute_ast(t_group *group, t_ast_node *node, bool is_pipeline)
 {
   int exit_code;
 
   exit_code = -1;
 	if (node -> type == NODE_COMMAND)
-		exit_code = execute_command(node, is_pipeline);
+		exit_code = execute_command(group, node, is_pipeline);
 	else if (node -> type == NODE_PIPELINE)
-		exit_code = execute_pipeline(node);
+		exit_code = execute_pipeline(group, node);
   return (exit_code);
 }
 
-int  execute_command(t_ast_node *node, bool is_pipeline)
+int  execute_command(t_group *group, t_ast_node *node, bool is_pipeline)
 {
   int   status;
   pid_t pid;
@@ -50,7 +50,7 @@ int  execute_command(t_ast_node *node, bool is_pipeline)
   envp = node -> data.exec.envp;
   if (!is_pipeline)
   {
-    pid = ft_fork(node);
+    pid = ft_fork(group, node);
     if (pid == 0)
     {
       execve(path, argv, envp);
@@ -59,6 +59,6 @@ int  execute_command(t_ast_node *node, bool is_pipeline)
     return (WEXITSTATUS(status));
   }
   execve(path, argv, envp);
-  clear_and_exit(node, "execve");
+  clear_and_exit(group, "execve");
 }
 

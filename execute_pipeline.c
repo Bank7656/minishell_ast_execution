@@ -2,11 +2,11 @@
 
 
 static void  close_pipe(int pipe_fd[2]);
-static pid_t execute_left_child(t_ast_node *node, int pipe_fd[2], int prev_fd);
-static pid_t execute_right_child(t_ast_node *node, int pipe_fd[2]);
+static pid_t execute_left_child(t_group *group, t_ast_node *node, int pipe_fd[2], int prev_fd);
+static pid_t execute_right_child(t_group *group, t_ast_node *node, int pipe_fd[2]);
 static int wait_all_child(pid_t last_pid);
 
-int execute_pipeline(t_ast_node *node)
+int execute_pipeline(t_group *group, t_ast_node *node)
 {
   int        prev_fd;
   int        pipe_fd[2];
@@ -22,9 +22,9 @@ int execute_pipeline(t_ast_node *node)
     right_node = node -> data.tree.right;
 
     if (pipe(pipe_fd) == -1)
-        clear_and_exit(node, "pipe");
+        clear_and_exit(group, "pipe");
 
-    left_pid = execute_left_child(left_node, pipe_fd, prev_fd);
+    left_pid = execute_left_child(group -> ast_root, left_node, pipe_fd, prev_fd);
 
     if (prev_fd != -1)
     {
@@ -38,7 +38,7 @@ int execute_pipeline(t_ast_node *node)
 
     node = node -> data.tree.right;
   }
-  last_pid = execute_right_child(right_node, pipe_fd);  
+  last_pid = execute_right_child(group -> ast_root, right_node, pipe_fd);  
   close(pipe_fd[0]);
   return (wait_all_child(last_pid));
 }
@@ -62,25 +62,25 @@ static int wait_all_child(pid_t last_pid)
   return (last_status);
 }
 
-static pid_t execute_right_child(t_ast_node *node, int pipe_fd[2])
+static pid_t execute_right_child(t_group *group, t_ast_node *node, int pipe_fd[2])
 {
   pid_t right_pid;
 
-  right_pid = ft_fork(node);
+  right_pid = ft_fork(group, node);
   if (right_pid == 0)
   {
     close(STDIN_FILENO);
     dup(pipe_fd[0]);
-    execute_ast(node, true);
+    execute_ast(group, node, true);
   }
   return (right_pid);
 }
 
-static pid_t execute_left_child(t_ast_node *node, int pipe_fd[2], int prev_fd)
+static pid_t execute_left_child(t_group *group, t_ast_node *node, int pipe_fd[2], int prev_fd)
 {
   pid_t left_pid;
 
-  left_pid = ft_fork(node);
+  left_pid = ft_fork(group, node);
   if (left_pid == 0)
   {
     if (prev_fd != -1)
@@ -91,7 +91,7 @@ static pid_t execute_left_child(t_ast_node *node, int pipe_fd[2], int prev_fd)
     close(STDOUT_FILENO);
     dup(pipe_fd[1]);
     close_pipe(pipe_fd);
-    execute_ast(node, true);
+    execute_ast(group, node, true);
   }
   return (left_pid); 
 }
