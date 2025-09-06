@@ -1,6 +1,7 @@
 docker-compose.yml
 dockerfile
 
+*.a
 *.o
 .DS_Store
 

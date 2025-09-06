@@ -24,7 +24,7 @@ int execute_pipeline(t_group *group, t_ast_node *node)
     if (pipe(pipe_fd) == -1)
         clear_and_exit(group, "pipe");
 
-    left_pid = execute_left_child(group -> ast_root, left_node, pipe_fd, prev_fd);
+    left_pid = execute_left_child(group, left_node, pipe_fd, prev_fd);
 
     if (prev_fd != -1)
     {
@@ -38,7 +38,7 @@ int execute_pipeline(t_group *group, t_ast_node *node)
 
     node = node -> data.tree.right;
   }
-  last_pid = execute_right_child(group -> ast_root, right_node, pipe_fd);  
+  last_pid = execute_right_child(group, right_node, pipe_fd);  
   close(pipe_fd[0]);
   return (wait_all_child(last_pid));
 }

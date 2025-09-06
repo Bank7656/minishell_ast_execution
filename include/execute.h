@@ -25,6 +25,8 @@
 # include <unistd.h>
 # include <errno.h>
 
+# include "../libft/libft.h"
+
 typedef enum e_node_type
 {
 	NODE_COMMAND,
@@ -57,6 +59,7 @@ typedef struct s_group {
 } t_group;
 
 // Delete After finishing prototype
+void  test(char **envp);
 t_ast_node	*create_dummy_ast(char **envp);
 t_group *create_group(t_ast_node *node);
 // Delete After finishing prototype

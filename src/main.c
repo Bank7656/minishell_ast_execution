@@ -14,13 +14,13 @@
 
 int	main(int argc, char **argv, char **envp)
 {
+  test(envp);
+	//t_ast_node *root_node = create_dummy_ast(envp);
 
-	t_ast_node *root_node = create_dummy_ast(envp);
+  //t_group *group = create_group(root_node);
+	//execution(group, root_node);
 
-  t_group *group = create_group(root_node);
-	execution(group, root_node);
-
-  clear_and_exit(group, "NONE");
+  //clear_and_exit(group, "NONE");
 
 	return (0);
 }

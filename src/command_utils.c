@@ -7,7 +7,7 @@ pid_t ft_fork(t_group *group, t_ast_node *node)
 
   pid = fork();
   if (pid == -1)
-   clear_and_exit(group -> ast_root, "fork");
+   clear_and_exit(group, "fork");
   return pid;
 }
 

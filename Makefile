@@ -3,7 +3,8 @@ CFLAGS = -g
 # CFLAGS = -Wall -Wextra -Werror
 
 HEADER = execute.h
-HEADER_DIR = ./
+HEADER_DIR = ./include/
+HEADERS = $(addprefix $(HEADER_DIR), $(HEADER))
 
 SRC = dummy.c \
 	main.c \
@@ -11,6 +12,9 @@ SRC = dummy.c \
 	execute_pipeline.c \
 	execute_utils.c \
 	command_utils.c
+
+SRC_DIR = ./src/
+SRCS = $(addprefix $(SRC_DIR), $(SRC))
 
 SRC_OBJS = $(SRC:.c=.o)
 
@@ -25,10 +29,10 @@ NAME = execute
 
 all: $(NAME)
 
-$(NAME): $(LIBFT) $(OBJ_DIR) $(OBJS) $(HEADER)
+$(NAME): $(LIBFT) $(OBJ_DIR) $(OBJS) $(HEADERS)
 	$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
 
-$(OBJ_DIR)%.o:%.c | $(OBJ_DIR)
+$(OBJ_DIR)%.o:$(SRC_DIR)%.c | $(OBJ_DIR)
 	$(CC) $(CFLAGS) -I $(HEADER_DIR) -c  $< -o $@
 
 $(OBJ_DIR):
