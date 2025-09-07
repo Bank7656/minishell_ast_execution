@@ -1,19 +1,20 @@
 NAME = execute 
+TESTER_NAME = execute_tester
+
 
 CC = cc
-CFLAGS = -g
-# CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror
 
 SRC_DIR = ./src/
 OBJ_DIR = ./objects/
 HEADER_DIR = ./include/
 LIBFT_DIR := ./libft/
+TESTER_DIR := ./tester/
 
 HEADER = execute.h
 LIBFT_NAME = libft.a
 
-SRC = dummy.c \
-	main.c \
+SRC = main.c \
 	execute.c \
 	execute_pipeline.c \
 	execute_utils.c \
@@ -30,6 +31,9 @@ all: $(NAME)
 $(NAME): $(LIBFT) $(OBJ_DIR) $(OBJS) $(HEADERS)
 	$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
 
+$(TESTER_NAME):
+		$(MAKE) -C $(TESTER_DIR)
+
 $(OBJ_DIR)%.o:$(SRC_DIR)%.c | $(OBJ_DIR)
 	$(CC) $(CFLAGS) -I $(HEADER_DIR) -c  $< -o $@
 
@@ -45,13 +49,18 @@ run: $(NAME)
 debug: $(NAME)
 	@valgrind --leak-check=full --track-fds=yes ./$(NAME)
 
+test: $(TESTER_NAME)
+	@valgrind --leak-check=full --track-fds=yes $(TESTER_DIR)$(TESTER_NAME)
+
 clean:
 	rm -rf $(OBJ_DIR)
+	$(MAKE) clean -C $(TESTER_DIR)
 	$(MAKE) clean -C $(LIBFT_DIR)
 
 fclean:
 	rm -rf $(NAME)
 	rm -rf $(OBJ_DIR)
+	$(MAKE) fclean -C $(TESTER_DIR)
 	$(MAKE) fclean -C $(LIBFT_DIR)
 
 diff:

@@ -10,7 +10,7 @@ int execute_pipeline(t_group *group, t_ast_node *node)
 {
   int        prev_fd;
   int        pipe_fd[2];
-  pid_t      left_pid;
+  //pid_t      left_pid;
   pid_t      last_pid;
   t_ast_node *right_node;
   t_ast_node *left_node;
@@ -24,7 +24,7 @@ int execute_pipeline(t_group *group, t_ast_node *node)
     if (pipe(pipe_fd) == -1)
         clear_and_exit(group, "pipe");
 
-    left_pid = execute_left_child(group, left_node, pipe_fd, prev_fd);
+    last_pid = execute_left_child(group, left_node, pipe_fd, prev_fd);
 
     if (prev_fd != -1)
     {
@@ -66,7 +66,7 @@ static pid_t execute_right_child(t_group *group, t_ast_node *node, int pipe_fd[2
 {
   pid_t right_pid;
 
-  right_pid = ft_fork(group, node);
+  right_pid = ft_fork(group);
   if (right_pid == 0)
   {
     close(STDIN_FILENO);
@@ -80,7 +80,7 @@ static pid_t execute_left_child(t_group *group, t_ast_node *node, int pipe_fd[2]
 {
   pid_t left_pid;
 
-  left_pid = ft_fork(group, node);
+  left_pid = ft_fork(group);
   if (left_pid == 0)
   {
     if (prev_fd != -1)
@@ -96,45 +96,9 @@ static pid_t execute_left_child(t_group *group, t_ast_node *node, int pipe_fd[2]
   return (left_pid); 
 }
 
-
-
-//static pid_t execute_left_child(t_ast_node *node, int pipe_fd[2])
-//{
-//  pid_t left_pid;
-//
-//  left_pid = ft_fork(node);
-//  if (left_pid == 0)
-//  {
-//    close(STDOUT_FILENO);
-//    dup(pipe_fd[1]);
-//    close_pipe(pipe_fd);
-//    execute_ast(node -> data.tree.left);
-//  }
-//  return (left_pid); 
-//}
-
-//static pid_t execute_right_child(t_ast_node *node, int pipe_fd[2])
-//{
-//  pid_t right_pid;
-//
-//  right_pid = ft_fork(node);
-//  if (right_pid == 0)
-//  {
-//    close(STDIN_FILENO);
-//    dup(pipe_fd[0]);
-//    close_pipe(pipe_fd);
-//    execute_ast(node -> data.tree.right);
-//  }
-//  return (right_pid); 
-//}
-
 static void  close_pipe(int pipe_fd[2])
 {
   close(pipe_fd[0]);
   close(pipe_fd[1]);
 }
 
-//static int  wait_all_child(int last_pid)
-//{
-//  
-//}

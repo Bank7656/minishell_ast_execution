@@ -35,6 +35,14 @@ typedef enum e_node_type
 	NODE_REDIRECT_OUT,
 }	t_node_type;
 
+typedef enum e_redirect
+{
+  REDIR_INPUT,
+  REDIR_OUTPUT,
+  APPEND,
+  HEREDOC
+} t_redirect;
+
 typedef struct s_ast_node
 {
 	t_node_type	type;
@@ -75,6 +83,6 @@ int  execute_pipeline(t_group *group, t_ast_node *node);
 void		*clear_ast(t_ast_node *node);
 
 // commands_utils.c
-pid_t    ft_fork(t_group *group, t_ast_node *node);
+pid_t    ft_fork(t_group *group);
 void     clear_and_exit(t_group *group, char *cmd);
 #endif
