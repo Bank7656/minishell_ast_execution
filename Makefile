@@ -61,4 +61,4 @@ diff:
 
 re: fclean all
 
-.PHONY: re fclean clean all
+.PHONY: re fclean clean run debug diff all
