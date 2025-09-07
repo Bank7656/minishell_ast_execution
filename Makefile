@@ -1,10 +1,16 @@
+NAME = execute 
+
 CC = cc
 CFLAGS = -g
 # CFLAGS = -Wall -Wextra -Werror
 
-HEADER = execute.h
+SRC_DIR = ./src/
+OBJ_DIR = ./objects/
 HEADER_DIR = ./include/
-HEADERS = $(addprefix $(HEADER_DIR), $(HEADER))
+LIBFT_DIR := ./libft/
+
+HEADER = execute.h
+LIBFT_NAME = libft.a
 
 SRC = dummy.c \
 	main.c \
@@ -12,20 +18,12 @@ SRC = dummy.c \
 	execute_pipeline.c \
 	execute_utils.c \
 	command_utils.c
+OBJECTS = $(SRC:.c=.o)
 
-SRC_DIR = ./src/
+HEADERS = $(addprefix $(HEADER_DIR), $(HEADER))
 SRCS = $(addprefix $(SRC_DIR), $(SRC))
-
-SRC_OBJS = $(SRC:.c=.o)
-
-OBJ_DIR = ./objects/
-OBJS = $(addprefix $(OBJ_DIR), $(SRC_OBJS))
-
-LIBFT_NAME := libft.a
-LIBFT_DIR := ./libft/
+OBJS = $(addprefix $(OBJ_DIR), $(OBJECTS))
 LIBFT = $(addprefix $(LIBFT_DIR), $(LIBFT_NAME))
-
-NAME = execute 
 
 all: $(NAME)
 
@@ -45,7 +43,7 @@ run: $(NAME)
 	@./$(NAME)
 
 debug: $(NAME)
-	valgrind --leak-check=full --track-fds=yes ./$(NAME)
+	@valgrind --leak-check=full --track-fds=yes ./$(NAME)
 
 clean:
 	rm -rf $(OBJ_DIR)
@@ -55,6 +53,11 @@ fclean:
 	rm -rf $(NAME)
 	rm -rf $(OBJ_DIR)
 	$(MAKE) fclean -C $(LIBFT_DIR)
+
+diff:
+	$(info The status of the repository, and the volume of per-file changes:)
+	@git status
+	@git diff --stat
 
 re: fclean all
 
