@@ -5,11 +5,13 @@ CFLAGS = -g
 
 MAIN_SRC_DIR := ../src/
 TESTER_SRC_DIR := ./
+TESTER_HEADER_DIR := ./
 OBJ_DIR := ./objects/
 HEADER_DIR = ../include/
 LIBFT_DIR := ../libft/
 
 HEADER = execute.h
+TESTER_HEADER = tester.h
 LIBFT_NAME = libft.a
 
 MAIN_SRC = execute.c \
@@ -19,7 +21,8 @@ MAIN_SRC = execute.c \
 MAIN_OBJECTS = $(MAIN_SRC:.c=.o)
 
 TESTER_SRC = tester_main.c \
-						 dummy.c
+						 dummy.c \
+						 test.c
 TESTER_OBJECTS = $(TESTER_SRC:.c=.o)
 
 
@@ -32,14 +35,14 @@ LIBFT = $(addprefix $(LIBFT_DIR), $(LIBFT_NAME))
 
 all: $(NAME)
 
-$(NAME): $(LIBFT) $(OBJ_DIR) $(OBJS) $(HEADERS)
+$(NAME): $(LIBFT) $(OBJ_DIR) $(OBJS) $(HEADERS) $(TESTER_HEADER)
 	$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
 
 $(OBJ_DIR)%.o:$(MAIN_SRC_DIR)%.c | $(OBJ_DIR)
 	$(CC) $(CFLAGS) -I $(HEADER_DIR) -c  $< -o $@
 
 $(OBJ_DIR)%.o:$(TESTER_DIR)%.c | $(OBJ_DIR)
-	$(CC) $(CFLAGS) -I $(HEADER_DIR) -c  $< -o $@
+	$(CC) $(CFLAGS) -I $(TESTER_HEADER_DIR) -c  $< -o $@
 
 $(OBJ_DIR):
 	mkdir $(OBJ_DIR)

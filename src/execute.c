@@ -43,23 +43,17 @@ int  execute_command(t_group *group, t_ast_node *node, bool is_pipeline)
   pid_t pid;
   struct s_command  *cmd;
 
-
   cmd = &(node -> data.exec);
-  //path = node -> data.exec.commands;
-  //argv = node -> data.exec.arguments;
-  //envp = node -> data.exec.envp;
   if (!is_pipeline)
   {
     pid = ft_fork(group);
     if (pid == 0)
     {
-      //execve(path, argv, envp);
       execve(cmd -> commands, cmd -> arguments, cmd -> envp);
     }
     waitpid(pid, &status, 0);
     return (WEXITSTATUS(status));
   }
-  //execve(path, argv, envp);
   execve(cmd -> commands, cmd -> arguments, cmd -> envp);
   clear_and_exit(group, "execve");
   return (EXIT_FAILURE);

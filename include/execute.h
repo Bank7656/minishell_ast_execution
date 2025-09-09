@@ -35,13 +35,21 @@ typedef enum e_node_type
 	NODE_REDIRECT_OUT,
 }	t_node_type;
 
-typedef enum e_redirect
+typedef enum e_redir_type
 {
   REDIR_INPUT,
   REDIR_OUTPUT,
   APPEND,
   HEREDOC
-} t_redirect;
+} t_redir_type;
+
+typedef struct s_redir
+{
+  t_redir_type type; 
+  char  *filename;
+  int   mode;
+  struct s_redir *next;
+} t_redir;
 
 typedef struct s_ast_node
 {
@@ -53,6 +61,8 @@ typedef struct s_ast_node
 			char		*commands;
 			char		**arguments;
 			char		**envp;
+      t_redir *redir_input;
+      t_redir *redir_output;
 		} exec;
 		struct s_operator
 		{
@@ -78,6 +88,9 @@ int    execute_ast(t_group *group, t_ast_node *node, bool is_pipeline);
 
 //execute_pipeline.c
 int  execute_pipeline(t_group *group, t_ast_node *node);
+
+// execute_redirect.c
+void  redirect_input(t_group *group, t_ast_node *node); 
 
 // execute_utils.c
 void		*clear_ast(t_ast_node *node);
