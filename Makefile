@@ -16,6 +16,7 @@ LIBFT_NAME = libft.a
 SRC = main.c \
 	execute.c \
 	execute_pipeline.c \
+	execute_redirect.c \
 	execute_utils.c \
 	command_utils.c
 OBJECTS = $(SRC:.c=.o)
@@ -57,13 +58,13 @@ test: $(TESTER_NAME)
 
 clean:
 	rm -rf $(OBJ_DIR)
-	rm -rf $(TESTER_DIR)
+	# rm -rf $(TESTER_DIR)
 	$(MAKE) clean -C $(LIBFT_DIR)
 
 fclean:
 	rm -rf $(NAME)
 	rm -rf $(OBJ_DIR)
-	rm -rf $(TESTER_DIR)
+	# rm -rf $(TESTER_DIR)
 	$(MAKE) fclean -C $(LIBFT_DIR)
 
 diff:
