@@ -29,10 +29,8 @@ LIBFT = $(addprefix $(LIBFT_DIR), $(LIBFT_NAME))
 all: $(NAME)
 
 $(NAME): $(LIBFT) $(OBJ_DIR) $(OBJS) $(HEADERS)
-	$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJS) -L $(LIBFT_DIR) -lft -o $(NAME)
 
-$(TESTER_NAME):
-		$(MAKE) -C $(TESTER_DIR)
 
 $(OBJ_DIR)%.o:$(SRC_DIR)%.c | $(OBJ_DIR)
 	$(CC) $(CFLAGS) -I $(HEADER_DIR) -c  $< -o $@
@@ -42,6 +40,12 @@ $(OBJ_DIR):
 
 $(LIBFT):
 	$(MAKE) -C $(LIBFT_DIR)
+
+$(TESTER_NAME): $(TESTER_DIR)
+		$(MAKE) -C $(TESTER_DIR)
+	
+$(TESTER_DIR):
+	git clone git@github.com:Bank7656/bank_minishell_tester.git tester
 
 run: $(NAME)
 	@./$(NAME)
@@ -54,13 +58,13 @@ test: $(TESTER_NAME)
 
 clean:
 	rm -rf $(OBJ_DIR)
-	$(MAKE) clean -C $(TESTER_DIR)
+	rm -rf $(TESTER_DIR)
 	$(MAKE) clean -C $(LIBFT_DIR)
 
 fclean:
 	rm -rf $(NAME)
 	rm -rf $(OBJ_DIR)
-	$(MAKE) fclean -C $(TESTER_DIR)
+	rm -rf $(TESTER_DIR)
 	$(MAKE) fclean -C $(LIBFT_DIR)
 
 diff:

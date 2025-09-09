@@ -47,6 +47,7 @@ typedef struct s_redir
 {
   t_redir_type type; 
   char  *filename;
+  char  *delimeter;
   int   mode;
   struct s_redir *next;
 } t_redir;
@@ -61,8 +62,8 @@ typedef struct s_ast_node
 			char		*commands;
 			char		**arguments;
 			char		**envp;
-      t_redir *redir_input;
-      t_redir *redir_output;
+      t_list *redir_input;
+      t_list *redir_output;
 		} exec;
 		struct s_operator
 		{
