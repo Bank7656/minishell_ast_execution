@@ -1,7 +1,6 @@
 NAME = execute 
 TESTER_NAME = execute_tester
 
-
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
 
@@ -45,7 +44,7 @@ $(TESTER_NAME): $(TESTER_DIR)
 		$(MAKE) -C $(TESTER_DIR)
 	
 $(TESTER_DIR):
-	git clone git@github.com:Bank7656/bank_minishell_tester.git tester
+	git clone git@github.com:Bank7656/bank_minishell_tester.git $(TESTER_DIR) 
 
 run: $(NAME)
 	@./$(NAME)
@@ -70,7 +69,7 @@ fclean:
 diff:
 	$(info The status of the repository, and the volume of per-file changes:)
 	@git status
-	@git diff --stat
+	@git --no-pager diff --stat
 
 re: fclean all
 
