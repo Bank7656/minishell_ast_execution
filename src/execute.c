@@ -45,6 +45,7 @@ int  execute_command(t_group *group, t_ast_node *node, bool is_pipeline)
 
   cmd = &(node -> data.exec);
   redirect_input(group, node);
+  redirect_output(group, node);
   if (!is_pipeline)
   {
     pid = ft_fork(group);

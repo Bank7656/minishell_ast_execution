@@ -58,14 +58,15 @@ test: $(TESTER_NAME)
 
 clean:
 	rm -rf $(OBJ_DIR)
-	# rm -rf $(TESTER_DIR)
 	$(MAKE) clean -C $(LIBFT_DIR)
 
 fclean:
 	rm -rf $(NAME)
 	rm -rf $(OBJ_DIR)
-	# rm -rf $(TESTER_DIR)
 	$(MAKE) fclean -C $(LIBFT_DIR)
+
+tclean:
+	rm -rf $(TESTER_DIR)
 
 diff:
 	$(info The status of the repository, and the volume of per-file changes:)

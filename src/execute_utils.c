@@ -78,6 +78,17 @@ static void	free_command_node(t_ast_node *node)
     free(node -> data.exec.redir_input);
   }
 
+  if (node -> data.exec.redir_output)
+  {
+    redir_trav1 = node -> data.exec.redir_output;
+    while (redir_trav1 != NULL)
+    {
+      redir_trav2 = redir_trav1;
+      redir_trav1 = redir_trav1 -> next;
+      free(redir_trav2 -> content);
+    }
+    free(node -> data.exec.redir_output);
+  }
 	free(node);
 	return ;
 }

@@ -93,6 +93,7 @@ int  execute_pipeline(t_group *group, t_ast_node *node);
 
 // execute_redirect.c
 void  redirect_input(t_group *group, t_ast_node *node); 
+void  redirect_output(t_group *group, t_ast_node *node); 
 
 // execute_utils.c
 void		*clear_ast(t_ast_node *node);
