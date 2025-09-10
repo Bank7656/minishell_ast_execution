@@ -16,6 +16,7 @@ void  redirect_input(t_group *group, t_ast_node *node)
       clear_and_exit(group, "open");
     close(STDIN_FILENO);
     dup(infile_fd);
+    close(infile_fd);
     redir_node = redir_node -> next;
   }
   return ;
