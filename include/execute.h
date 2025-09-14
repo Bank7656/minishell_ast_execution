@@ -100,5 +100,6 @@ void		*clear_ast(t_ast_node *node);
 
 // commands_utils.c
 pid_t    ft_fork(t_group *group);
+void     ft_pipe(t_group *group, int pipe_fd[2], int prev_fd);
 void     clear_and_exit(t_group *group, char *cmd);
 #endif

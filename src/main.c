@@ -7,5 +7,6 @@ int main(int argc, char **argv, char **envp)
   (void)argv;
   (void)envp;
   printf("This is main.c from src directory!!\n");
+  ft_lstnew(NULL);
   return (0);
 }
