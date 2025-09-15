@@ -18,6 +18,8 @@
 # define STDERR_FILENO 2
 # define MAX_PROCESSES 256
 
+# define TMP_FILE "/tmp/tempfile_"
+
 # include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>

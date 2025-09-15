@@ -47,6 +47,8 @@ static void	free_command_node(t_ast_node *node)
 {
 	char **trav;
 
+  t_redir *redir_node;
+  char  *filename;
   t_list *redir_trav1;
   t_list *redir_trav2;
 
@@ -66,6 +68,7 @@ static void	free_command_node(t_ast_node *node)
 		}
 		free(node -> data.exec.arguments);	
 	}
+
   if (node -> data.exec.redir_input)
   {
     redir_trav1 = node -> data.exec.redir_input;
@@ -73,6 +76,10 @@ static void	free_command_node(t_ast_node *node)
     {
       redir_trav2 = redir_trav1;
       redir_trav1 = redir_trav1 -> next;
+      redir_node = (t_redir *)(redir_trav2 -> content);  
+      if (redir_node -> type == HEREDOC)
+        unlink(redir_node -> filename);
+      free(redir_node -> filename);
       free(redir_trav2 -> content);
     }
     free(node -> data.exec.redir_input);
@@ -85,6 +92,7 @@ static void	free_command_node(t_ast_node *node)
     {
       redir_trav2 = redir_trav1;
       redir_trav1 = redir_trav1 -> next;
+      free(((t_redir *)(redir_trav2 -> content)) -> filename);
       free(redir_trav2 -> content);
     }
     free(node -> data.exec.redir_output);
