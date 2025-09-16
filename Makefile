@@ -17,6 +17,7 @@ SRC = main.c \
 	execute.c \
 	execute_pipeline.c \
 	execute_redirect.c \
+	execute_heredoc.c \
 	execute_utils.c \
 	command_utils.c
 OBJECTS = $(SRC:.c=.o)

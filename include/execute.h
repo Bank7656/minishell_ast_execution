@@ -16,6 +16,7 @@
 # define STDIN_FILENO 0
 # define STDOUT_FILENO 1
 # define STDERR_FILENO 2
+# define FILE_PERMISSION 0644
 # define MAX_PROCESSES 256
 
 # define TMP_FILE "/tmp/tempfile_"
@@ -51,7 +52,6 @@ typedef struct s_redir
   t_redir_type type; 
   char  *filename;
   char  *delimeter;
-  int   mode;
   struct s_redir *next;
 } t_redir;
 
@@ -65,8 +65,7 @@ typedef struct s_ast_node
 			char		*commands;
 			char		**arguments;
 			char		**envp;
-      t_list *redir_input;
-      t_list *redir_output;
+      t_list  *redir;
 		} exec;
 		struct s_operator
 		{
@@ -94,9 +93,10 @@ int    execute_ast(t_group *group, t_ast_node *node, bool is_pipeline);
 int  execute_pipeline(t_group *group, t_ast_node *node);
 
 // execute_redirect.c
-void  redirect_input(t_group *group, t_ast_node *node); 
-void  redirect_output(t_group *group, t_ast_node *node); 
+void  redirection(t_group *group, t_ast_node *node);
 
+// execute_heredoc.c
+void  prepare_heredoc(t_group *group, t_ast_node *node);
 // execute_utils.c
 void		*clear_ast(t_ast_node *node);
 
