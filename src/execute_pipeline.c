@@ -47,7 +47,7 @@ static int wait_all_child(pid_t last_pid)
 
   while (true)
   {
-    pid = wait(&status);
+    pid = waitpid(-1, &status, WNOHANG);
     if (pid == last_pid)
     {
       if (WIFEXITED(status))

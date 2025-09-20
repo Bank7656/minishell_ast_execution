@@ -19,9 +19,13 @@ void		execution(t_group *group, t_ast_node *node)
 {
   int   exit_code;
 
+  clock_t begin = clock();
   prepare_heredoc(group, node);
   exit_code = execute_ast(group, node, false);
+  clock_t end = clock();
   printf("[Final Exit code %i]\n", exit_code);
+  double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+  printf("Total sleep time taken: %f\n", time_spent);
 
   return ;
 }
@@ -47,15 +51,18 @@ int  execute_command(t_group *group, t_ast_node *node, bool is_pipeline)
 
   cmd = &(node -> data.exec);
   //check_access(group, node);
-  redirection(group, node);
   if (!is_pipeline)
   {
     pid = ft_fork(group);
     if (pid == 0)
+    {
+      redirection(group, node);
       ft_execve(group, cmd);
+    }
     waitpid(pid, &status, 0);
     return (WEXITSTATUS(status));
   }
+  redirection(group, node);
   ft_execve(group, cmd);
   clear_and_exit(group, node, "execve");
   return (EXIT_FAILURE);

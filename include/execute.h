@@ -26,6 +26,9 @@
 
 # define TMP_FILE "/tmp/tempfile_"
 
+// Delete
+# include <time.h>
+
 # include <stdbool.h>
 # include <stdio.h>
 # include <stdlib.h>

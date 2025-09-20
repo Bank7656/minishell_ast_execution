@@ -5,6 +5,7 @@ dockerfile
 *.o
 .DS_Store
 
+data/
 objects/
 tester/
 
