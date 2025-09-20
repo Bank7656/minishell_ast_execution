@@ -46,13 +46,13 @@ static void  create_tmp_file(t_group *group, t_redir *redir)
 
   temp_fd = open(redir -> filename, O_CREAT | O_WRONLY, 0644);
   if (temp_fd == -1)
-    clear_and_exit(group, "open");
+    clear_and_exit(group, NULL, "open");
   while (true)
   {
     ft_putstr_fd("> ", STDOUT_FILENO);
     line = get_next_line(STDIN_FILENO);
     if (line == NULL)
-      clear_and_exit(group, "malloc");
+      clear_and_exit(group, NULL, "malloc");
 		if (ft_strncmp(line, redir -> delimeter, ft_strlen(line) - 1) == 0)
 		{
 			free(line);
@@ -71,10 +71,10 @@ static char *get_tmpfile_name(t_group *group, int n)
   
   run_number = ft_itoa(n);
   if (run_number == NULL)
-    clear_and_exit(group, "malloc");
+    clear_and_exit(group, NULL, "malloc");
   filename = ft_strjoin(TMP_FILE, run_number);    
   free(run_number);
   if (filename == NULL)
-    clear_and_exit(group, "malloc");
+    clear_and_exit(group, NULL, "malloc");
   return (filename);  
 }

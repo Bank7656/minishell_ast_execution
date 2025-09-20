@@ -51,7 +51,7 @@ $(TESTER_DIR):
 run: $(NAME)
 	@./$(NAME)
 
-debug: $(NAME)
+deug: $(NAME)
 	@valgrind --leak-check=full --track-fds=yes ./$(NAME)
 
 test: $(TESTER_NAME)
@@ -65,6 +65,7 @@ fclean:
 	rm -rf $(NAME)
 	rm -rf $(OBJ_DIR)
 	$(MAKE) fclean -C $(LIBFT_DIR)
+	$(MAKE) fclean -C $(TESTER_DIR)
 
 tclean:
 	rm -rf $(TESTER_DIR)

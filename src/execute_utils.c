@@ -14,11 +14,18 @@
 
 static void	free_command_node(t_ast_node *node);
 
-void  clear_and_exit(t_group *group, char *cmd)
+void  clear_and_exit(t_group *group, t_ast_node *node, char *cmd)
 {
   clear_ast(group -> ast_root);
   free(group);
+  if (ft_strncmp(cmd, "access", -1) == 0)
+  {
+    //if ()
+    exit(COMMAND_NOT_FOUND);
+  }
   if (errno == ENOENT)
+    perror(cmd);
+  else if (errno == EACCES)
     perror(cmd);
   else if (errno == ECHILD)
     perror(cmd);
@@ -68,20 +75,23 @@ static void	free_command_node(t_ast_node *node)
 		free(node -> data.exec.arguments);	
 	}
 
-  if (node -> data.exec.redir)
+  t_list *temp_lst;
+  t_list *temp_trav;
+
+  t_redir *redir;
+  temp_lst = node -> data.exec.redir;
+  while (temp_lst != NULL)
   {
-    redir_trav1 = node -> data.exec.redir;
-    while (redir_trav1 != NULL)
-    {
-      redir_trav2 = redir_trav1;
-      redir_trav1 = redir_trav1 -> next;
-      redir_node = (t_redir *)(redir_trav2 -> content);  
-      if (redir_node -> type == HEREDOC)
+      redir = (t_redir *)(temp_lst -> content); 
+      if (redir -> type == HEREDOC)
         unlink(redir_node -> filename);
-      free(redir_node -> filename);
-      free(redir_trav2 -> content);
-    }
-    free(node -> data.exec.redir);
+      free(redir -> filename);
+      if (redir -> delimeter != NULL)
+        free(redir -> delimeter);
+      free(redir);
+      temp_trav = temp_lst;
+      temp_lst = temp_lst -> next;
+      free(temp_trav);
   }
 
 	free(node);

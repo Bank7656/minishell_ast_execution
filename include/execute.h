@@ -13,10 +13,15 @@
 #ifndef EXECUTE_H
 # define EXECUTE_H
 
+# define EXIT_SUCCESS 0
+# define EXIT_FAILURE 1
+
 # define STDIN_FILENO 0
 # define STDOUT_FILENO 1
 # define STDERR_FILENO 2
 # define FILE_PERMISSION 0644
+# define COMMAND_CANNOT_EXECUTE 126
+# define COMMAND_NOT_FOUND 127
 # define MAX_PROCESSES 256
 
 # define TMP_FILE "/tmp/tempfile_"
@@ -52,7 +57,6 @@ typedef struct s_redir
   t_redir_type type; 
   char  *filename;
   char  *delimeter;
-  struct s_redir *next;
 } t_redir;
 
 typedef struct s_ast_node
@@ -103,5 +107,6 @@ void		*clear_ast(t_ast_node *node);
 // commands_utils.c
 pid_t    ft_fork(t_group *group);
 void     ft_pipe(t_group *group, int pipe_fd[2], int prev_fd);
-void     clear_and_exit(t_group *group, char *cmd);
+void  ft_execve(t_group *group, struct s_command *cmd);
+void     clear_and_exit(t_group *group, t_ast_node *node, char *cmd);
 #endif

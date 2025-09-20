@@ -1,7 +1,7 @@
 #include "execute.h"
 
 static void  redirect_input(t_group *group, t_redir *redirect, int flags); 
-static void  redirect_output(t_group *group, t_redir *redirect, int flags); 
+static void  redirect_output(t_group *group, t_redir *redirect, int flags);
 
 void  redirection(t_group *group, t_ast_node *node)
 {
@@ -30,7 +30,7 @@ static void  redirect_input(t_group *group, t_redir *redirect, int flags)
   filename = redirect -> filename;
   infile_fd = open(filename, flags, FILE_PERMISSION);
   if (infile_fd == -1)
-    clear_and_exit(group, "open");
+    clear_and_exit(group, NULL, "open");
   close(STDIN_FILENO);
   dup(infile_fd);
   close(infile_fd);
@@ -45,7 +45,7 @@ static void  redirect_output(t_group *group, t_redir *redirect, int flags)
   filename = redirect -> filename;
   outfile_fd = open(filename, flags, FILE_PERMISSION);
   if (outfile_fd == -1)
-    clear_and_exit(group, "open");
+    clear_and_exit(group, NULL, "open");
   close(STDOUT_FILENO);
   dup(outfile_fd);
   close(outfile_fd);

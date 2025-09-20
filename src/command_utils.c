@@ -7,7 +7,7 @@ pid_t ft_fork(t_group *group)
 
   pid = fork();
   if (pid == -1)
-   clear_and_exit(group, "fork");
+   clear_and_exit(group, NULL, "fork");
   return pid;
 }
 
@@ -18,8 +18,13 @@ void ft_pipe(t_group *group, int pipe_fd[2], int prev_fd)
   {
     if (prev_fd != -1)
       close(prev_fd);
-    clear_and_exit(group, "pipe");
+    clear_and_exit(group, NULL, "pipe");
   }
 
 }
 
+void  ft_execve(t_group *group, struct s_command *cmd)
+{
+  if (execve(cmd -> commands, cmd -> arguments, cmd -> envp) == -1)
+    clear_and_exit(group, NULL, "execve");
+}

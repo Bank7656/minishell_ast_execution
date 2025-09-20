@@ -46,19 +46,27 @@ int  execute_command(t_group *group, t_ast_node *node, bool is_pipeline)
   struct s_command  *cmd;
 
   cmd = &(node -> data.exec);
+  //check_access(group, node);
   redirection(group, node);
   if (!is_pipeline)
   {
     pid = ft_fork(group);
     if (pid == 0)
-    {
-      execve(cmd -> commands, cmd -> arguments, cmd -> envp);
-    }
+      ft_execve(group, cmd);
     waitpid(pid, &status, 0);
     return (WEXITSTATUS(status));
   }
-  execve(cmd -> commands, cmd -> arguments, cmd -> envp);
-  clear_and_exit(group, "execve");
+  ft_execve(group, cmd);
+  clear_and_exit(group, node, "execve");
   return (EXIT_FAILURE);
 }
+
+void  check_access(t_group *group, t_ast_node *node)
+{
+  int access_ret;
+
+  if (access(node -> data.exec.commands, F_OK | X_OK) == -1)
+    clear_and_exit(group, node, "access");
+}
+
 
