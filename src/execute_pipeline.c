@@ -47,12 +47,13 @@ static int wait_all_child(pid_t last_pid)
 
   while (true)
   {
-    pid = waitpid(-1, &status, WNOHANG);
+    pid = wait(&status);
+    if (pid < 0)
+      break;
     if (pid == last_pid)
     {
       if (WIFEXITED(status))
         last_status = WEXITSTATUS(status);
-      break;
     }
   }
   return (last_status);
