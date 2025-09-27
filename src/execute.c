@@ -18,14 +18,19 @@ int  execute_command(t_group *group, t_ast_node *node, bool is_pipeline);
 void		execution(t_group *group, t_ast_node *node)
 {
   int   exit_code;
+  struct sigaction sa;
 
-  clock_t begin = clock();
+  sa.sa_handler = handle_signal;
+  sigemptyset(&sa.sa_mask);
+  sa.sa_flags = 0;
+
+  if (sigaction(SIGINT, &sa, NULL) == -1)
+      clear_and_exit(group, NULL, "SIGINT");
+  if (sigaction(SIGQUIT, &sa, NULL) == -1)
+      clear_and_exit(group, NULL, "SIGQUIT");
   prepare_heredoc(group, node);
   exit_code = execute_ast(group, node, false);
-  clock_t end = clock();
-  printf("[Final Exit code %i]\n", exit_code);
-  double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
-  printf("Total sleep time taken: %f\n", time_spent);
+  //printf("[Final Exit code %i]\n", exit_code);
 
   return ;
 }

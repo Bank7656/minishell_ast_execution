@@ -43,8 +43,6 @@ typedef enum e_node_type
 {
 	NODE_COMMAND,
 	NODE_PIPELINE,
-	NODE_REDIRECT_IN,
-	NODE_REDIRECT_OUT,
 }	t_node_type;
 
 typedef enum e_redir_type
@@ -106,6 +104,9 @@ void  redirection(t_group *group, t_ast_node *node);
 void  prepare_heredoc(t_group *group, t_ast_node *node);
 // execute_utils.c
 void		*clear_ast(t_ast_node *node);
+
+// Signal_handler.c
+void  handle_signal(int signal);
 
 // commands_utils.c
 pid_t    ft_fork(t_group *group);

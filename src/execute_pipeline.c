@@ -54,6 +54,8 @@ static int wait_all_child(pid_t last_pid)
     {
       if (WIFEXITED(status))
         last_status = WEXITSTATUS(status);
+      if (WEXITSTATUS(status))
+        last_status = 128 + WTERMSIG(status);
     }
   }
   return (last_status);

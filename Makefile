@@ -19,6 +19,7 @@ SRC = main.c \
 	execute_redirect.c \
 	execute_heredoc.c \
 	execute_utils.c \
+	signal_handler.c \
 	command_utils.c
 OBJECTS = $(SRC:.c=.o)
 
@@ -46,7 +47,7 @@ $(TESTER_NAME): $(TESTER_DIR)
 		$(MAKE) -C $(TESTER_DIR)
 	
 $(TESTER_DIR):
-	git clone git@github.com:Bank7656/bank_minishell_tester.git $(TESTER_DIR) 
+	git clone https://github.com/Bank7656/bank_minishell_tester.git $(TESTER_DIR) 
 
 run: $(NAME)
 	@./$(NAME)
@@ -69,6 +70,9 @@ fclean:
 
 tclean:
 	rm -rf $(TESTER_DIR)
+
+watch:
+	watch ps -aux
 
 diff:
 	$(info The status of the repository, and the volume of per-file changes:)
