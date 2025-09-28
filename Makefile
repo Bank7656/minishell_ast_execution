@@ -4,11 +4,12 @@ TESTER_NAME = execute_tester
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
 
-SRC_DIR = ./src/
-OBJ_DIR = ./objects/
-HEADER_DIR = ./include/
-LIBFT_DIR := ./libft/
-TESTER_DIR := ./tester/
+SRC_DIR = src/
+OBJ_DIR = objects/
+HEADER_DIR = include/
+LIBFT_DIR := libft/
+TESTER_DIR := tester/
+DATA_DIR := data/
 
 HEADER = execute.h
 LIBFT_NAME = libft.a
@@ -56,6 +57,8 @@ deug: $(NAME)
 	@valgrind --leak-check=full --track-fds=yes ./$(NAME)
 
 test: $(TESTER_NAME)
+	@rm -rf $(DATA_DIR)
+	@cp -r $(TESTER_DIR)$(DATA_DIR) .
 	@valgrind --leak-check=full --track-fds=yes $(TESTER_DIR)$(TESTER_NAME)
 
 clean:
