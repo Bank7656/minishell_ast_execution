@@ -54,7 +54,6 @@ static void	free_command_node(t_ast_node *node)
 {
 	char **trav;
 
-  t_redir *redir_node;
   t_list *redir_trav1;
   t_list *redir_trav2;
 
@@ -84,7 +83,11 @@ static void	free_command_node(t_ast_node *node)
   {
       redir = (t_redir *)(temp_lst -> content); 
       if (redir -> type == HEREDOC)
-        unlink(redir_node -> filename);
+      {
+        printf("%s\n", redir -> filename);
+        unlink(redir -> filename);
+        perror("unlink");
+      }
       free(redir -> filename);
       if (redir -> delimeter != NULL)
         free(redir -> delimeter);

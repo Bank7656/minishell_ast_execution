@@ -84,13 +84,7 @@ typedef struct s_group {
   t_ast_node *ast_root;
 } t_group;
 
-// Delete After finishing prototype
-void  test(char **envp);
-t_ast_node	*create_dummy_ast(char **envp);
-t_group *create_group(t_ast_node *node);
-// Delete After finishing prototype
-
-//eexecute.c
+//execute.c
 void		execution(t_group *group, t_ast_node *node);
 int    execute_ast(t_group *group, t_ast_node *node, bool is_pipeline);
 
