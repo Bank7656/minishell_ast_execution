@@ -6,7 +6,7 @@
 /*   By: thacharo <thacharo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 17:35:01 by thacharo          #+#    #+#             */
-/*   Updated: 2025/08/25 10:31:41 by thacharo         ###   ########.fr       */
+/*   Updated: 2025/10/04 15:41:38 by thacharo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,11 @@
 # define STDOUT_FILENO 1
 # define STDERR_FILENO 2
 # define FILE_PERMISSION 0644
-# define COMMAND_CANNOT_EXECUTE 126
-# define COMMAND_NOT_FOUND 127
+# define EXEC_CMD_CANNOT_EXECUTE 126
+# define EXEC_CMD_NOT_FOUND 127
 # define MAX_PROCESSES 256
 
-# define TMP_FILE "/tmp/tempfile_"
-
-// Delete
-# include <time.h>
+# define TMP_FILE_PREFIX "/tmp/tempfile_"
 
 # include <stdbool.h>
 # include <stdio.h>
@@ -95,7 +92,7 @@ int  execute_pipeline(t_group *group, t_ast_node *node);
 void  redirection(t_group *group, t_ast_node *node);
 
 // execute_heredoc.c
-void  prepare_heredoc(t_group *group, t_ast_node *node);
+void  prepare_heredoc(t_group *group, t_ast_node *node, int *run_id);
 // execute_utils.c
 void		*clear_ast(t_ast_node *node);
 

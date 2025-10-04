@@ -6,7 +6,7 @@
 /*   By: thacharo <thacharo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 07:11:23 by thacharo          #+#    #+#             */
-/*   Updated: 2025/08/22 21:01:41 by thacharo         ###   ########.fr       */
+/*   Updated: 2025/10/04 14:35:56 by thacharo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void  clear_and_exit(t_group *group, t_ast_node *node, char *cmd)
   if (ft_strncmp(cmd, "access", -1) == 0)
   {
     //if ()
-    exit(COMMAND_NOT_FOUND);
+    exit(EXEC_CMD_NOT_FOUND);
   }
   if (errno == ENOENT)
     perror(cmd);
@@ -86,7 +86,6 @@ static void	free_command_node(t_ast_node *node)
       {
         printf("%s\n", redir -> filename);
         unlink(redir -> filename);
-        perror("unlink");
       }
       free(redir -> filename);
       if (redir -> delimeter != NULL)

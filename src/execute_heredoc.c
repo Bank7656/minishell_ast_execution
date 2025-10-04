@@ -1,39 +1,38 @@
 #include "execute.h"
 
-static void  check_heredoc(t_group *group, t_list *lst);
+static void  check_heredoc(t_group *group, t_list *lst, int *run_id);
 static void  create_tmp_file(t_group *group, t_redir *redir);
 static char *get_tmpfile_name(t_group *group, int n);
 
-void  prepare_heredoc(t_group *group, t_ast_node *node)
+void  prepare_heredoc(t_group *group, t_ast_node *node, int *run_id)
 {
   if (node -> type == NODE_COMMAND)
-    check_heredoc(group, node -> data.exec.redir);
+    check_heredoc(group, node -> data.exec.redir, run_id);
   else if (node -> type == NODE_PIPELINE)
   {
-    prepare_heredoc(group, node -> data.tree.left);
-    prepare_heredoc(group, node -> data.tree.right);
+    prepare_heredoc(group, node -> data.tree.left, run_id);
+    prepare_heredoc(group, node -> data.tree.right, run_id);
   }
   return ;
 }
 
-static void  check_heredoc(t_group *group, t_list *lst)
+static void  check_heredoc(t_group *group, t_list *lst, int *run_id)
 {
   t_redir *trav;
-  int   run_id;
   char  *filename;
 
   if (lst == NULL)
     return ;
-  run_id = 1;
   while (lst != NULL)
   {
     trav = (t_redir *)(lst -> content);
     if (trav -> type == HEREDOC)
     {
-      filename = get_tmpfile_name(group, run_id);
+      printf("%i\n", *run_id);
+      filename = get_tmpfile_name(group, *run_id);
       trav -> filename = filename;
       create_tmp_file(group, trav);
-      run_id++;
+      (*run_id)++;
     }
     lst = lst -> next;
   }
@@ -72,7 +71,7 @@ static char *get_tmpfile_name(t_group *group, int n)
   run_number = ft_itoa(n);
   if (run_number == NULL)
     clear_and_exit(group, NULL, "malloc");
-  filename = ft_strjoin(TMP_FILE, run_number);    
+  filename = ft_strjoin(TMP_FILE_PREFIX, run_number);    
   free(run_number);
   if (filename == NULL)
     clear_and_exit(group, NULL, "malloc");
