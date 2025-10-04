@@ -6,7 +6,7 @@
 /*   By: thacharo <thacharo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 17:35:01 by thacharo          #+#    #+#             */
-/*   Updated: 2025/10/04 15:41:38 by thacharo         ###   ########.fr       */
+/*   Updated: 2025/10/04 16:19:12 by thacharo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <sys/wait.h>
+# include <sys/stat.h>
 # include <unistd.h>
 # include <errno.h>
 # include <fcntl.h>
@@ -55,6 +56,7 @@ typedef struct s_redir
   t_redir_type type; 
   char  *filename;
   char  *delimeter;
+  int	fd;
 } t_redir;
 
 typedef struct s_ast_node

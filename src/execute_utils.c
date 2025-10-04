@@ -6,7 +6,7 @@
 /*   By: thacharo <thacharo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 07:11:23 by thacharo          #+#    #+#             */
-/*   Updated: 2025/10/04 14:35:56 by thacharo         ###   ########.fr       */
+/*   Updated: 2025/10/04 20:51:44 by thacharo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@ void  clear_and_exit(t_group *group, t_ast_node *node, char *cmd)
   free(group);
   if (ft_strncmp(cmd, "access", -1) == 0)
   {
-    //if ()
     exit(EXEC_CMD_NOT_FOUND);
   }
   if (errno == ENOENT)
@@ -76,16 +75,31 @@ static void	free_command_node(t_ast_node *node)
 
   t_list *temp_lst;
   t_list *temp_trav;
-
   t_redir *redir;
+
+
+  struct stat st;
+  int file_ocr;
+  
   temp_lst = node -> data.exec.redir;
   while (temp_lst != NULL)
   {
       redir = (t_redir *)(temp_lst -> content); 
       if (redir -> type == HEREDOC)
       {
-        printf("%s\n", redir -> filename);
-        unlink(redir -> filename);
+        if (redir -> fd != - 1)
+        {
+          if (file_ocr = fstat(redir -> fd, &st) != -1)
+          {
+            close(redir -> fd);
+            unlink(redir -> filename);
+          }
+        }
+        else
+        {
+          if (redir -> filename != NULL) 
+            unlink(redir -> filename);          
+        }
       }
       free(redir -> filename);
       if (redir -> delimeter != NULL)
@@ -95,7 +109,6 @@ static void	free_command_node(t_ast_node *node)
       temp_lst = temp_lst -> next;
       free(temp_trav);
   }
-
 	free(node);
 	return ;
 }

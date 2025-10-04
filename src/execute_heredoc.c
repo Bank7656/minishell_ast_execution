@@ -28,7 +28,6 @@ static void  check_heredoc(t_group *group, t_list *lst, int *run_id)
     trav = (t_redir *)(lst -> content);
     if (trav -> type == HEREDOC)
     {
-      printf("%i\n", *run_id);
       filename = get_tmpfile_name(group, *run_id);
       trav -> filename = filename;
       create_tmp_file(group, trav);
@@ -40,11 +39,11 @@ static void  check_heredoc(t_group *group, t_list *lst, int *run_id)
 
 static void  create_tmp_file(t_group *group, t_redir *redir)
 {
-  int temp_fd;
+  int   length;
   char  *line;
 
-  temp_fd = open(redir -> filename, O_CREAT | O_WRONLY, 0644);
-  if (temp_fd == -1)
+  redir -> fd = open(redir -> filename, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+  if (redir -> fd == -1)
     clear_and_exit(group, NULL, "open");
   while (true)
   {
@@ -52,15 +51,16 @@ static void  create_tmp_file(t_group *group, t_redir *redir)
     line = get_next_line(STDIN_FILENO);
     if (line == NULL)
       clear_and_exit(group, NULL, "malloc");
-		if (ft_strncmp(line, redir -> delimeter, ft_strlen(line) - 1) == 0)
+    length = ft_strlen(redir -> delimeter);
+		if ((ft_strncmp(line, redir -> delimeter, length) == 0))
 		{
 			free(line);
 			break ;
 		}
-    ft_putstr_fd(line, temp_fd);
+    ft_putstr_fd(line, redir -> fd);
     free(line);
   }
-  close(temp_fd);
+  close(redir -> fd);
 }
 
 static char *get_tmpfile_name(t_group *group, int n)  
