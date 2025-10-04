@@ -6,7 +6,7 @@
 /*   By: thacharo <thacharo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 17:35:01 by thacharo          #+#    #+#             */
-/*   Updated: 2025/10/04 16:19:12 by thacharo         ###   ########.fr       */
+/*   Updated: 2025/10/05 01:35:03 by thacharo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,19 +45,19 @@ typedef enum e_node_type
 
 typedef enum e_redir_type
 {
-  REDIR_INPUT,
-  REDIR_OUTPUT,
-  APPEND,
-  HEREDOC
-} t_redir_type;
+	REDIR_INPUT,
+	REDIR_OUTPUT,
+	APPEND,
+	HEREDOC
+}	t_redir_type;
 
 typedef struct s_redir
 {
-  t_redir_type type; 
-  char  *filename;
-  char  *delimeter;
-  int	fd;
-} t_redir;
+	t_redir_type	type;
+	char			*filename;
+	char			*delimeter;
+	int				fd;
+}	t_redir;
 
 typedef struct s_ast_node
 {
@@ -69,7 +69,7 @@ typedef struct s_ast_node
 			char		*commands;
 			char		**arguments;
 			char		**envp;
-      t_list  *redir;
+			t_list		*redir;
 		} exec;
 		struct s_operator
 		{
@@ -79,31 +79,33 @@ typedef struct s_ast_node
 	} data;
 }	t_ast_node;
 
-typedef struct s_group {
-  t_ast_node *ast_root;
-} t_group;
+typedef struct s_group
+{
+	t_ast_node	*ast_root;
+}	t_group;
 
 //execute.c
 void		execution(t_group *group, t_ast_node *node);
-int    execute_ast(t_group *group, t_ast_node *node, bool is_pipeline);
+int			execute_ast(t_group *group, t_ast_node *node, bool is_pipeline);
 
 //execute_pipeline.c
-int  execute_pipeline(t_group *group, t_ast_node *node);
+int			execute_pipeline(t_group *group, t_ast_node *node);
 
 // execute_redirect.c
-void  redirection(t_group *group, t_ast_node *node);
+void		redirection(t_group *group, t_ast_node *node);
 
 // execute_heredoc.c
-void  prepare_heredoc(t_group *group, t_ast_node *node, int *run_id);
+void		prepare_heredoc(t_group *group, t_ast_node *node, int *run_id);
 // execute_utils.c
 void		*clear_ast(t_ast_node *node);
 
 // Signal_handler.c
-void  handle_signal(int signal);
+void		handle_signal(int signal);
+void		signal_init(t_group *group);
 
 // commands_utils.c
-pid_t    ft_fork(t_group *group);
-void     ft_pipe(t_group *group, int pipe_fd[2], int prev_fd);
-void  ft_execve(t_group *group, struct s_command *cmd);
-void     clear_and_exit(t_group *group, t_ast_node *node, char *cmd);
+pid_t		ft_fork(t_group *group);
+void		ft_pipe(t_group *group, int pipe_fd[2], int prev_fd);
+void		ft_execve(t_group *group, struct s_command *cmd);
+void		clear_and_exit(t_group *group, t_ast_node *node, char *cmd);
 #endif
