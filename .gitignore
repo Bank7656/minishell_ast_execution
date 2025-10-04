@@ -3,7 +3,10 @@ dockerfile
 
 *.a
 *.o
+
 .DS_Store
+
+.vscode/
 
 data/
 objects/

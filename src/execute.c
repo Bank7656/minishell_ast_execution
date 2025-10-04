@@ -6,7 +6,7 @@
 /*   By: thacharo <thacharo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 17:35:04 by thacharo          #+#    #+#             */
-/*   Updated: 2025/10/04 15:41:33 by thacharo         ###   ########.fr       */
+/*   Updated: 2025/10/04 21:39:31 by thacharo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,6 @@ void		execution(t_group *group, t_ast_node *node)
   temp_file_id = 1;
   prepare_heredoc(group, node, &temp_file_id);
   exit_code = execute_ast(group, node, false);
-  //printf("[Final Exit code %i]\n", exit_code);
-
   return ;
 }
 

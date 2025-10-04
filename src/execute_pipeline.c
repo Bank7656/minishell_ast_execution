@@ -1,6 +1,5 @@
 #include "execute.h"
 
-
 static void  close_pipe(int pipe_fd[2]);
 static pid_t execute_left_child(t_group *group, t_ast_node *node, int pipe_fd[2], int prev_fd);
 static pid_t execute_right_child(t_group *group, t_ast_node *node, int pipe_fd[2]);
@@ -19,9 +18,8 @@ int execute_pipeline(t_group *group, t_ast_node *node)
   {
     left_node = node -> data.tree.left;
     right_node = node -> data.tree.right;
-    ft_pipe(group,pipe_fd, prev_fd);
-    last_pid = execute_left_child(group, left_node, pipe_fd, prev_fd);
-
+    ft_pipe(group, pipe_fd, prev_fd);
+    execute_left_child(group, left_node, pipe_fd, prev_fd);
     if (prev_fd != -1)
     {
       close(prev_fd);
@@ -31,12 +29,9 @@ int execute_pipeline(t_group *group, t_ast_node *node)
     if (right_node -> type != NODE_PIPELINE)
         break;
     prev_fd = pipe_fd[0];
-
     node = node -> data.tree.right;
   }
-  last_pid = execute_right_child(group, right_node, pipe_fd);  
-  close(pipe_fd[0]);
-  return (wait_all_child(last_pid));
+  return (wait_all_child(execute_right_child(group, right_node, pipe_fd)));
 }
 
 static int wait_all_child(pid_t last_pid)
@@ -72,6 +67,7 @@ static pid_t execute_right_child(t_group *group, t_ast_node *node, int pipe_fd[2
     dup(pipe_fd[0]);
     execute_ast(group, node, true);
   }
+  close(pipe_fd[0]);
   return (right_pid);
 }
 

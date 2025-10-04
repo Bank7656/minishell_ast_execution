@@ -6,13 +6,14 @@
 /*   By: thacharo <thacharo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/20 07:11:23 by thacharo          #+#    #+#             */
-/*   Updated: 2025/10/04 20:51:44 by thacharo         ###   ########.fr       */
+/*   Updated: 2025/10/05 00:22:02 by thacharo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execute.h"
 
 static void	free_command_node(t_ast_node *node);
+static void free_redirect_node(t_list *redir_lst);
 
 void  clear_and_exit(t_group *group, t_ast_node *node, char *cmd)
 {
@@ -52,7 +53,6 @@ void	*clear_ast(t_ast_node *node)
 static void	free_command_node(t_ast_node *node)
 {
 	char **trav;
-
   t_list *redir_trav1;
   t_list *redir_trav2;
 
@@ -72,43 +72,36 @@ static void	free_command_node(t_ast_node *node)
 		}
 		free(node -> data.exec.arguments);	
 	}
+  free_redirect_node(node -> data.exec.redir);
+	free(node);
+	return ;
+}
 
-  t_list *temp_lst;
-  t_list *temp_trav;
+static void free_redirect_node(t_list *redir_lst)
+{
   t_redir *redir;
-
-
+  t_list *trav;
   struct stat st;
-  int file_ocr;
   
-  temp_lst = node -> data.exec.redir;
-  while (temp_lst != NULL)
+  while (redir_lst != NULL)
   {
-      redir = (t_redir *)(temp_lst -> content); 
+      redir = (t_redir *)(redir_lst -> content); 
       if (redir -> type == HEREDOC)
       {
         if (redir -> fd != - 1)
         {
-          if (file_ocr = fstat(redir -> fd, &st) != -1)
-          {
+          if (fstat(redir -> fd, &st) != -1)
             close(redir -> fd);
-            unlink(redir -> filename);
-          }
         }
-        else
-        {
-          if (redir -> filename != NULL) 
-            unlink(redir -> filename);          
-        }
+        if (redir -> filename != NULL) 
+          unlink(redir -> filename);
+        if (redir -> delimeter != NULL)
+          free(redir -> delimeter);
       }
       free(redir -> filename);
-      if (redir -> delimeter != NULL)
-        free(redir -> delimeter);
       free(redir);
-      temp_trav = temp_lst;
-      temp_lst = temp_lst -> next;
-      free(temp_trav);
+      trav = redir_lst;
+      redir_lst = redir_lst -> next;
+      free(trav);
   }
-	free(node);
-	return ;
 }
