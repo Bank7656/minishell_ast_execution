@@ -6,7 +6,7 @@
 /*   By: thacharo <thacharo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 17:35:01 by thacharo          #+#    #+#             */
-/*   Updated: 2025/10/05 01:35:03 by thacharo         ###   ########.fr       */
+/*   Updated: 2025/10/05 19:49:59 by thacharo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ typedef struct s_ast_node
 typedef struct s_group
 {
 	t_ast_node	*ast_root;
+	char		**envp;
 }	t_group;
 
 //execute.c

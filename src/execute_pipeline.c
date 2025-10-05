@@ -6,7 +6,7 @@
 /*   By: thacharo <thacharo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/05 00:40:33 by thacharo          #+#    #+#             */
-/*   Updated: 2025/10/05 00:55:28 by thacharo         ###   ########.fr       */
+/*   Updated: 2025/10/05 20:05:22 by thacharo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,7 @@ int	execute_pipeline(t_group *group, t_ast_node *node)
 		ft_pipe(group, pipe_fd, prev_fd);
 		exec_left(group, left_node, pipe_fd, prev_fd);
 		if (prev_fd != -1)
-		{
 			close(prev_fd);
-			prev_fd = -1;
-		}
 		close(pipe_fd[1]);
 		if (right_node -> type != NODE_PIPELINE)
 			break ;
