@@ -6,13 +6,14 @@
 /*   By: thacharo <thacharo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 17:35:04 by thacharo          #+#    #+#             */
-/*   Updated: 2025/10/05 01:31:01 by thacharo         ###   ########.fr       */
+/*   Updated: 2025/10/05 21:03:09 by thacharo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execute.h"
 
 int	execute_command(t_group *group, t_ast_node *node, bool is_pipeline);
+static void	check_access(t_group *group, t_ast_node *node);
 
 void	execution(t_group *group, t_ast_node *node)
 {
@@ -45,7 +46,7 @@ int	execute_command(t_group *group, t_ast_node *node, bool is_pipeline)
 	struct s_command	*cmd;
 
 	cmd = &(node -> data.exec);
-	//check_access(group, node);
+	check_access(group, node);
 	if (!is_pipeline)
 	{
 		pid = ft_fork(group);
@@ -63,10 +64,18 @@ int	execute_command(t_group *group, t_ast_node *node, bool is_pipeline)
 	return (EXIT_FAILURE);
 }
 
-void	check_access(t_group *group, t_ast_node *node)
+static void	check_access(t_group *group, t_ast_node *node)
 {
 	int	access_ret;
 
+	if (ft_strchr(node -> data.exec.commands, '/') == NULL)
+		printf("Shorten commands!!!\n");
+		// data -> command_path = get_full_command_path(data, data -> cmds_arg[0]);
 	if (access(node -> data.exec.commands, F_OK | X_OK) == -1)
 		clear_and_exit(group, node, "access");
+}
+
+static char *get_full_cmd_path(t_group *group, char *cmd)
+{
+	return (NULL);
 }

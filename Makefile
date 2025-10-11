@@ -15,6 +15,7 @@ HEADER = execute.h
 LIBFT_NAME = libft.a
 
 SRC = main.c \
+	env_utils.c \
 	execute.c \
 	execute_pipeline.c \
 	execute_redirect.c \

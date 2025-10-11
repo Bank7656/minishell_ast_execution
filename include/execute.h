@@ -6,7 +6,7 @@
 /*   By: thacharo <thacharo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 17:35:01 by thacharo          #+#    #+#             */
-/*   Updated: 2025/10/05 19:49:59 by thacharo         ###   ########.fr       */
+/*   Updated: 2025/10/11 21:55:20 by thacharo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,12 @@ typedef struct s_redir
 	int				fd;
 }	t_redir;
 
+typedef struct s_envp
+{
+	char	*key;
+	char	*values;
+} t_envp;
+
 typedef struct s_ast_node
 {
 	t_node_type	type;
@@ -83,7 +89,11 @@ typedef struct s_group
 {
 	t_ast_node	*ast_root;
 	char		**envp;
+	t_list		*env_list;
 }	t_group;
+
+//env_util.c
+t_list		*arr_to_lst(t_group *group, char **arr);
 
 //execute.c
 void		execution(t_group *group, t_ast_node *node);
@@ -109,4 +119,5 @@ pid_t		ft_fork(t_group *group);
 void		ft_pipe(t_group *group, int pipe_fd[2], int prev_fd);
 void		ft_execve(t_group *group, struct s_command *cmd);
 void		clear_and_exit(t_group *group, t_ast_node *node, char *cmd);
+void		clear_env_list(t_list *envp_lst);
 #endif
