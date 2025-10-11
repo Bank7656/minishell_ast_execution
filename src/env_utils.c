@@ -12,9 +12,10 @@
 
 #include "execute.h"
 
-static t_envp *create_env_node(t_group *group, char *env_var);
+static t_envp	*create_env_node(t_group *group, char *env_var);
+static char		*get_env_var(t_group *group, t_envp *env);
 
-t_list *arr_to_lst(t_group *group, char **envp)
+t_list *env_to_lst(t_group *group, char **envp)
 {
 	int		i;
 	t_list	*lst;
@@ -35,7 +36,31 @@ t_list *arr_to_lst(t_group *group, char **envp)
 		ft_lstadd_back(&group -> env_list, lst);
 		i++;
 	}
-	return (NULL);
+	return (group -> env_list);
+}
+
+char	*env_lst_to_arr(t_group *group, t_list *lst)
+{
+	int		i;
+	int		len;
+	char	**arr;
+	t_list	*trav;
+	
+	if (lst == NULL)
+		return (NULL);
+	len = ft_lstsize(lst);
+	arr = (char **)malloc(sizeof(char *) * (len + 1));
+	if (arr == NULL)
+		clear_and_exit(group, NULL, "Malloc");
+	i = 0;
+	while (i < len)
+	{
+		arr[i] = get_env_var(group, (t_envp*)lst -> content);
+		i++;
+		lst = lst -> next;
+	}
+	arr[i] = NULL;
+	return (arr);
 }
 
 static t_envp *create_env_node(t_group *group, char *env_var)
@@ -63,3 +88,19 @@ static t_envp *create_env_node(t_group *group, char *env_var)
 	}
 	return (env_dict);
 }
+
+static char *get_env_var(t_group *group, t_envp *env)
+{
+	char	*tmp_str;
+	char	*env_var;
+
+	tmp_str = ft_strjoin(env -> key, "=");
+	if (tmp_str == NULL)
+		clear_and_exit(group, NULL, "Malloc");
+	env_var = ft_strjoin(tmp_str, env -> values);
+	free(tmp_str);
+	if (env_var == NULL)
+		clear_and_exit(group, NULL, "Malloc");
+	return (env_var);
+}
+

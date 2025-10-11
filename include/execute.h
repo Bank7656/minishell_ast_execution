@@ -6,7 +6,7 @@
 /*   By: thacharo <thacharo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 17:35:01 by thacharo          #+#    #+#             */
-/*   Updated: 2025/10/11 21:55:20 by thacharo         ###   ########.fr       */
+/*   Updated: 2025/10/12 02:02:21 by thacharo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,8 @@ typedef struct s_group
 }	t_group;
 
 //env_util.c
-t_list		*arr_to_lst(t_group *group, char **arr);
+t_list		*env_to_lst(t_group *group, char **arr);
+char		*env_lst_to_arr(t_group *group, t_list *lst);
 
 //execute.c
 void		execution(t_group *group, t_ast_node *node);
