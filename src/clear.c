@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execute_utils.c                                    :+:      :+:    :+:   */
+/*   clear.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: thacharo <thacharo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/20 07:11:23 by thacharo          #+#    #+#             */
-/*   Updated: 2025/10/11 23:11:50 by thacharo         ###   ########.fr       */
+/*   Created: 2025/10/12 03:10:45 by thacharo          #+#    #+#             */
+/*   Updated: 2025/10/12 03:20:56 by thacharo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,29 +14,6 @@
 
 static void	free_command_node(t_ast_node *node);
 static void	free_redirect_node(t_list *redir_lst);
-
-void	clear_and_exit(t_group *group, t_ast_node *node, char *cmd)
-{
-	clear_ast(group -> ast_root);
-	clear_env_list(group -> env_list);
-	free(group);
-	if (ft_strncmp(cmd, "access", -1) == 0)
-	{
-		exit(EXEC_CMD_NOT_FOUND);
-	}
-	if (errno == ENOENT)
-		perror(cmd);
-	else if (errno == EACCES)
-		perror(cmd);
-	else if (errno == ECHILD)
-		perror(cmd);
-	else if (errno == EINVAL)
-		perror(cmd);
-	else if (errno == EAGAIN)
-		perror(cmd);
-	printf("[Exit %i]\n", errno);
-	exit(errno);
-}
 
 void	clear_env_list(t_list *envp_lst)
 {

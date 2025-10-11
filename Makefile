@@ -17,12 +17,15 @@ LIBFT_NAME = libft.a
 SRC = main.c \
 	env_utils.c \
 	execute.c \
+	execute_command.c \
 	execute_pipeline.c \
 	execute_redirect.c \
 	execute_heredoc.c \
-	execute_utils.c \
 	signal_handler.c \
-	command_utils.c
+	command_utils.c \
+	clear.c \
+	clear_and_exit.c
+
 OBJECTS = $(SRC:.c=.o)
 
 HEADERS = $(addprefix $(HEADER_DIR), $(HEADER))

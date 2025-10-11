@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: thacharo <thacharo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/10/05 21:13:09 by thacharo          #+#    #+#             */
-/*   Updated: 2025/10/05 22:40: by thacharo         ###   ########.fr       */
+/*   Created: 2025/10/12 02:32:49 by thacharo          #+#    #+#             */
+/*   Updated: 2025/10/12 02:39:15 by thacharo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ t_list *env_to_lst(t_group *group, char **envp)
 	return (group -> env_list);
 }
 
-char	*env_lst_to_arr(t_group *group, t_list *lst)
+char	**env_lst_to_arr(t_group *group, t_list *lst)
 {
 	int		i;
 	int		len;

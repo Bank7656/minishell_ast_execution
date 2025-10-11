@@ -6,7 +6,7 @@
 /*   By: thacharo <thacharo@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 17:35:01 by thacharo          #+#    #+#             */
-/*   Updated: 2025/10/12 02:02:21 by thacharo         ###   ########.fr       */
+/*   Updated: 2025/10/12 03:16:04 by thacharo         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,13 +94,13 @@ typedef struct s_group
 
 //env_util.c
 t_list		*env_to_lst(t_group *group, char **arr);
-char		*env_lst_to_arr(t_group *group, t_list *lst);
+char		**env_lst_to_arr(t_group *group, t_list *lst);
 
-//execute.c
+// execute.c
 void		execution(t_group *group, t_ast_node *node);
 int			execute_ast(t_group *group, t_ast_node *node, bool is_pipeline);
 
-//execute_pipeline.c
+// execute_pipeline.c
 int			execute_pipeline(t_group *group, t_ast_node *node);
 
 // execute_redirect.c
@@ -108,8 +108,6 @@ void		redirection(t_group *group, t_ast_node *node);
 
 // execute_heredoc.c
 void		prepare_heredoc(t_group *group, t_ast_node *node, int *run_id);
-// execute_utils.c
-void		*clear_ast(t_ast_node *node);
 
 // Signal_handler.c
 void		handle_signal(int signal);
@@ -119,6 +117,12 @@ void		signal_init(t_group *group);
 pid_t		ft_fork(t_group *group);
 void		ft_pipe(t_group *group, int pipe_fd[2], int prev_fd);
 void		ft_execve(t_group *group, struct s_command *cmd);
+
+// clear_and_exit.c
 void		clear_and_exit(t_group *group, t_ast_node *node, char *cmd);
+
+// clear.c
+void		*clear_ast(t_ast_node *node);
 void		clear_env_list(t_list *envp_lst);
+
 #endif
